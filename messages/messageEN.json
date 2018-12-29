@@ -1,0 +1,6 @@
+{
+  "ERROR_EA01": "Missing Input",
+  "SUCCESSREG": "User Successfully Registered",
+  "ERROR_REG": "User Already Registered",
+  "ERROR_REG!": "Something Went Wrong"
+}
