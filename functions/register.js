@@ -43,7 +43,7 @@ async function register(value) {
         } else {
           reject({
             status: 500,
-            message: Utils.getErrorMessage("ERROR_REG")
+            message: Utils.getErrorMessage("ERROR_REG!")
           });
         }
       });

@@ -15,24 +15,26 @@ var transporter = nodemailer.createTransport({
   }
 });
 module.exports = {
-  userlogin: userlogin
+  userregister: userregister
 };
-function userlogin(req, callback) {
+function userregister(req, callback) {
   console.log(req.body);
   var name = req.body.name;
   console.log("name", name);
-  var number = req.body.mobilenumber;
+  var number = req.body.number;
   console.log("number", number);
-  var emailid = req.body.emailId;
+  var emailid = req.body.email;
   console.log("emailid", emailid);
-  var address = req.body.Address;
+  var address = req.body.address;
   console.log("address", address);
-  var emId = req.body.emiratedId;
+  var emId = req.body.emiratedid;
   console.log("emId", emId);
   var other = req.body.others;
   console.log("others", other);
   var deviceID = req.body.deviceid;
   console.log("deviceid", deviceID);
+  var password = req.body.password;
+  console.log("deviceid", password);
 
   if (
     !emailid ||
@@ -41,7 +43,8 @@ function userlogin(req, callback) {
     !emId ||
     !other ||
     !number ||
-    !deviceID
+    !deviceID ||
+    !password
   ) {
     console.log("ifcondition");
     var getErrMsg = Utils.getErrorMessage(lang, "ERROR_EA01");
@@ -57,10 +60,6 @@ function userlogin(req, callback) {
   } else {
     var username = emailid;
     var status_of_registration = true;
-    var password = Math.random()
-      .toString(36)
-      .slice(-8);
-    console.log("else", password);
     var value = {
       emailid: emailid,
       name: name,
@@ -77,29 +76,6 @@ function userlogin(req, callback) {
     registerfunction
       .register(value)
       .then(async function(result) {
-        await transporter.sendMail(
-          {
-            from: "sachin.kalamkar@rapidqube.com",
-            to: value.emailid,
-            subject: "Registration confirmation",
-            text:
-              "Hello " +
-              value.username +
-              '\n\nYou are successfully registered.\n Your Username is : "' +
-              value.username +
-              '"\nYour password is : "' +
-              value.password +
-              '"\n\nThanks and Regards,\n' +
-              "Adhaara."
-          },
-          function(error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          }
-        );
         console.log("result", result);
         callback("", result);
       })

@@ -15,11 +15,27 @@ var express = require("express"),
 const cors = require("cors");
 //var Promise = require('es6-promise').Promise;
 
-const loginValidation = require("../validations/registerValidation");
+const registerValidation = require("../validations/registerValidation");
+const loginValidation = require("../validations/loginValidation");
+const finduservalidation = require("../validations/finduservalidation");
 
 router.get("/", function(request, response, next) {
   response.render("index", {
     title: "Express"
+  });
+});
+router.post("/userregistration", cors(), (request, response) => {
+  registerValidation.userregister(request, function(error, result) {
+    console.log("err", error);
+    if (error) {
+      response.status(error.status).json({
+        message: error.message
+      });
+    } else {
+      response.status(result.status).json({
+        message: result.message
+      });
+    }
   });
 });
 router.post("/userlogin", cors(), (request, response) => {
@@ -33,7 +49,22 @@ router.post("/userlogin", cors(), (request, response) => {
       response.status(result.status).json({
         message: result.message
       });
+    } 
+  });
+});
+router.post("/finduser", cors(), (request, response) => {
+  finduservalidation.finduser(request, function(error, result) {
+    console.log("err", error);
+    if (error) {
+      response.status(error.status).json({
+        message: error.message
+      });
+    } else {
+      response.status(result.status).json({
+        message: result.message
+      });
     }
   });
 });
+
 module.exports = router;
